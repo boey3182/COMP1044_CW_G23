@@ -1,6 +1,11 @@
 <?php
 require_once "config.php";
 
+$delerror="";
+if(isset($_GET['delete'])){
+    $delerror=$_GET['delete'];
+}
+
 if(isset($_POST['search'])){
    $search = $_POST['search'];
    $sql1="SELECT * FROM `member` WHERE `member_id` LIKE '%$search%' OR `firstname` LIKE '%$search%' OR `lastname` LIKE '%$search%' OR`gender` LIKE '%$search%' OR `address` LIKE '%$search%' OR `contact` LIKE '%$search%' OR `year_level` LIKE '%$search%' OR`status` LIKE '%$search%' OR `type_id` LIKE '%$search%';";
@@ -102,6 +107,11 @@ $link->close();
       </a>
 
     </div>
+    <?php
+			if($delerror==2){
+				echo'<span style="color : red">Member cannot be deleted his borrowdetail still exists.</span>';
+			}
+		?>
     <section>
         <table>
             <br>
