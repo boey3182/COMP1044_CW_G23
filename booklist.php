@@ -1,19 +1,26 @@
 <?php
 require_once "config.php";
+$delerror="";
+if(isset($_GET['delete'])){
+    $delerror=$_GET['delete'];
+}
+
 
 if(isset($_POST['search'])){
    $search = $_POST['search'];
    $sql1="SELECT * FROM `book` WHERE `book_id` LIKE '%$search%' OR `book_title` LIKE '%$search%' OR `category_id` LIKE '%$search%' OR`author` LIKE '%$search%' OR `book_copies` LIKE '%$search%' OR `book_pub` LIKE '%$search%' OR `publisher_name` LIKE '%$search%' OR `isbn` LIKE '%$search%' OR`copyright_year` LIKE '%$search%' OR `date_added` LIKE '%$search%' OR `status` LIKE '%$search%';";
    $result =$link->query($sql1);
-}else
+}
+else
 {
 $sql = "SELECT * FROM book ORDER BY book_id ASC ";
 $result = $link->query($sql);
 }
 
 $link->close();
-
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +80,6 @@ $link->close();
     </style>
 
 </head>
-  
 <body>
 <div class="header">
 <h1>Book List</h1>
@@ -101,6 +107,13 @@ $link->close();
       </a>
 
     </div>
+
+		<?php
+			if($delerror==2){
+				echo'<span style="color : red">Book cannot be deleted as his borrowdetail still exists</span>';
+			}
+		?>
+
     <section>
         <table>
             <br>
@@ -120,7 +133,7 @@ $link->close();
 
             </tr>
 
-            <?php   
+            <?php
                 while($rows=$result->fetch_assoc())
                 {
                    
